@@ -12,9 +12,9 @@
 namespace shell
 {
 
-inline int exec(const std::string cmd)
+inline int exec(const std::string cmd)`
 {
-    int ret_code = std::system(("set -euo pipefail\n" + cmd + ">/dev/null 2>&1").c_str());
+    int ret_code = std::system(("set -euo pipefail\n" + cmd + " >/dev/null 2>&1").c_str());
     if (ret_code != 0)
     {
         std::cerr << boost::format("ERROR: failed to execute \"%1%\".") % cmd << std::endl;
@@ -44,7 +44,14 @@ inline std::optional<std::string> valueof(const std::string cmd)
     }
     pclose(pipe);
 
-    return result.substr(0, result.size() - 1);
+    if (result[result.size() - 1] == '\n')
+    {
+        return result.substr(0, result.size() - 1);
+    }
+    else
+    {
+        return result;
+    }
 }
 
 } // namespace shell
