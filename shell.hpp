@@ -12,7 +12,7 @@
 namespace shell
 {
 
-inline int exec(const std::string cmd)`
+inline int exec(const std::string cmd)
 {
     int ret_code = std::system(("set -euo pipefail\n" + cmd + " >/dev/null 2>&1").c_str());
     if (ret_code != 0)
